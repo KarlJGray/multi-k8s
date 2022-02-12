@@ -63,7 +63,7 @@ jobs:
       run: echo ::set-output name=tag::$(echo ${GITHUB_SHA:10})
     - name: Deploy
       run: |-
-        kubectl apply -f k8s/
+        kubectl apply -f complex/k8s/
         kubectl set image deployments/server-deployment server=karlgray/multi-server:${{steps.vars.outputs.tag}}
         kubectl set image deployments/client-deployment client=karlgray/multi-client:${{steps.vars.outputs.tag}}
         kubectl set image deployments/worker-deployment worker=karlgray/multi-worker:${{steps.vars.outputs.tag}}
