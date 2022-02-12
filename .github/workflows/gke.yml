@@ -30,15 +30,15 @@ jobs:
       run: echo ::set-output name=tag::$(echo ${GITHUB_SHA:10})
     - name: Running deploy script
       run: |-
-        docker build -t karljgray/multi-client:latest -t karljgray/multi-client:${{steps.vars.outputs.tag}} -f ./client/Dockerfile ./client
-        docker build -t karljgray/multi-server:latest -t karljgray/multi-server:${{steps.vars.outputs.tag}} -f ./server/Dockerfile ./server
-        docker build -t karljgray/multi-worker:latest -t karljgray/multi-worker:${{steps.vars.outputs.tag}} -f ./worker/Dockerfile ./worker
-        docker push karljgray/multi-client:latest
-        docker push karljgray/multi-server:latest
-        docker push karljgray/multi-worker:latest
-        docker push karljgray/multi-client:${{steps.vars.outputs.tag}}
-        docker push karljgray/multi-server:${{steps.vars.outputs.tag}}
-        docker push karljgray/multi-worker:${{steps.vars.outputs.tag}}
+        docker build -t karlgray/multi-client:latest -t karlgray/multi-client:${{steps.vars.outputs.tag}} -f ./complex/client/Dockerfile ./client
+        docker build -t karlgray/multi-server:latest -t karlgray/multi-server:${{steps.vars.outputs.tag}} -f ./complex/server/Dockerfile ./server
+        docker build -t karlgray/multi-worker:latest -t karlgray/multi-worker:${{steps.vars.outputs.tag}} -f ./complex/worker/Dockerfile ./worker
+        docker push karlgray/multi-client:latest
+        docker push karlgray/multi-server:latest
+        docker push karlgray/multi-worker:latest
+        docker push karlgray/multi-client:${{steps.vars.outputs.tag}}
+        docker push karlgray/multi-server:${{steps.vars.outputs.tag}}
+        docker push karlgray/multi-worker:${{steps.vars.outputs.tag}}
   setup-and-deploy:
     needs: publish-to-hub
     name: Setup and Deploy to k8s
@@ -64,7 +64,7 @@ jobs:
     - name: Deploy
       run: |-
         kubectl apply -f k8s/
-        kubectl set image deployments/server-deployment server=karljgray/multi-server:${{steps.vars.outputs.tag}}
-        kubectl set image deployments/client-deployment client=karljgray/multi-client:${{steps.vars.outputs.tag}}
-        kubectl set image deployments/worker-deployment worker=karljgray/multi-worker:${{steps.vars.outputs.tag}}
+        kubectl set image deployments/server-deployment server=karlgray/multi-server:${{steps.vars.outputs.tag}}
+        kubectl set image deployments/client-deployment client=karlgray/multi-client:${{steps.vars.outputs.tag}}
+        kubectl set image deployments/worker-deployment worker=karlgray/multi-worker:${{steps.vars.outputs.tag}}
         kubectl get services -o wide
