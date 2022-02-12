@@ -8,6 +8,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build dockerfile
-      run: docker build -t karlgray/react-test -f ./complex/client/Dockerfile.dev ./client
+      run: docker build -t karlgray/react-test -f ./complex/client/Dockerfile.dev ./complex/client
     - name: Run tests
       run: docker run -e CI=true karlgray/react-test npm test
